@@ -2,10 +2,12 @@ const express = require("express");
 const app = express();
 
 const database = require("./config/database");
+const {test} = require("./controllers/Auth");
 
 const dotenv = require("dotenv");
 // Loading environment variables from .env file
 dotenv.config();
+app.use(express.json());
 
 // PORT NUMBER
 const PORT = process.env.PORT || 4000;
@@ -18,7 +20,7 @@ database.connect();
 app.get("/",(req,res)=>{
     return res.json({
         success:true,
-        message:"Your server is up and running..."
+        message:"Your server is up and running...Animesh"
     });
 });
 
@@ -26,3 +28,4 @@ app.get("/",(req,res)=>{
 app.listen(PORT,()=>{
     console.log(`App is running at ${PORT}`)
 })
+

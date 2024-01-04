@@ -12,7 +12,6 @@ const categorySchema = new mongoose.Schema({
     },
     dishes:[{
         type:mongoose.Schema.Types.ObjectId,
-        required:true,
         ref:"Dishes"
     }]
 })
