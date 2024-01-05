@@ -1,8 +1,9 @@
 const express = require("express");
+// application create
 const app = express();
 
 const database = require("./config/database");
-
+// process object m load krna sara env variable
 const dotenv = require("dotenv");
 // Loading environment variables from .env file
 dotenv.config();
@@ -26,3 +27,5 @@ app.get("/",(req,res)=>{
 app.listen(PORT,()=>{
     console.log(`App is running at ${PORT}`)
 })
+
+
