@@ -1,4 +1,5 @@
 const express = require("express");
+// application create
 const app = express();
 
 const database = require("./config/database");
