@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://githib.com/animesh-anand-dev/mealbook-backend"
+    "url": "http://github.com/animesh-anand-dev/mealbook-backend"
   },
   "keywords": [
     "mealbook",
@@ -21,6 +21,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "firebase": "^10.7.1",
     "mongoose": "^8.0.3",
     "nodemon": "^3.0.2"
   }
