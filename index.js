@@ -3,16 +3,19 @@ const express = require("express");
 const app = express();
 
 const database = require("./config/database");
-const {sendSignUpOTP} = require("./controllers/Auth");
-
 const dotenv = require("dotenv");
+const fileUplaod = require("express-fileupload");
+const {cloudinaryConnect} = require("./config/cloudinary");
+
+const {sendSignUpOTP} = require("./controllers/Auth");
+const {createCategory, fetchAllCategories, updateCategory, deleteCategory} = require("./controllers/Category");
+const {categoryRoutes} = require("./routes/Category");
+
 // Loading environment variables from .env file
 dotenv.config();
 app.use(express.json());
-
 // PORT NUMBER
 const PORT = process.env.PORT || 4000;
-
 // database connect
 database.connect();
 
@@ -25,6 +28,21 @@ app.get("/",(req,res)=>{
         message:"Your server is up and running...Animesh"
     });
 });
+
+app.use(
+    fileUplaod({
+        useTempFiles: true,
+        tempFileDir:"/tmp"
+    })
+);
+
+cloudinaryConnect();
+
+//app.use("/api/v1/category", categoryRoutes);
+app.post("/createCategory", createCategory);
+app.get("/allCategory", fetchAllCategories);
+app.patch("/updateCategory", updateCategory);
+app.delete("/deleteCategory", deleteCategory);
 
 app.post("/sendotp", sendSignUpOTP);
 

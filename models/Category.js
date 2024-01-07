@@ -6,6 +6,10 @@ const categorySchema = new mongoose.Schema({
         required:true,
         trim:true
     },
+    categoryImage: {
+        type:String,
+        required: true,
+    },
     description:{
         type:String,
         required:true
@@ -14,6 +18,8 @@ const categorySchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Dishes"
     }]
-})
+},
+{timestamps:true}
+)
 // dish should be plural or singular
 module.exports = mongoose.model("Category",categorySchema);
