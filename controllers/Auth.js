@@ -63,7 +63,6 @@ exports.sendSignUpOTP = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: "OTP Sent Successfully",
-            otp
         })
 
     } catch(error) {
@@ -79,20 +78,21 @@ exports.sendSignUpOTP = async (req, res) => {
 exports.signUp = async (req,res)=>{
     try {
         // fetch data from request body or user input
-        const {firstName, lastName, email,mobile,password,confirmPassword,accountType,otp } = req.body;
+        const {firstName, lastName, email, mobile, password, confirmPassword, accountType, otp } = req.body;
 
         //check if all details are filled or not
         if(!firstName || !lastName || !email || !mobile || !password || !confirmPassword || !accountType || !otp) {
-            return res.status(403).json({
+            return res.status(400).json({
                 success:false,
                 message:"All fields are required"
             });
         }
+
         // check if the password and confirmPassword is same or not
         if(password !== confirmPassword){
             return res.status(400).json({
                 success:false,
-                message:"Password and confirmPassword does not matched, Please try again later"
+                message:"Password and Confirm Password does not matched, Please try again later"
             });
         }
 
@@ -160,6 +160,9 @@ exports.signUp = async (req,res)=>{
             accountType:accountType,
             image:`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
         })
+
+        console.log("User Created Successfully : ", user);
+
         return res.status(200).json({
             success:true,
             message:"User registered successfully",
@@ -167,7 +170,7 @@ exports.signUp = async (req,res)=>{
         });
 
     } catch (error) {
-        console.log(error);
+        console.log("Error in creating user", error);
         return res.status(500).json({
             success:false,
             message:"User cannot be registered, Please try again later"
@@ -180,11 +183,12 @@ exports.login = async(req,res)=>{
     try {
         // fetch email, mobile, password from req body
         const {email, mobile, password} = req.body;
-        // all fields should be field
+
+        // all fields should be filed
         if(!email || !mobile || !password){
             return res.status(400).json({
                 success:false,
-                message:`Please fill the required details`
+                message:"All fields are required"
             });
         } 
         
@@ -196,7 +200,7 @@ exports.login = async(req,res)=>{
         if(!validateEmail){
             return res.status(400).json({
                 success:false,
-                message:`Email entered is incorrect`
+                message:"Email entered is incorrect"
             })
         }
 
@@ -209,7 +213,7 @@ exports.login = async(req,res)=>{
         if(!validateNumber(mobile)) {
             return res.status(400).json({
                 success: false,
-                message: `Mobile Number is Invalid`
+                message: "Mobile Number is Invalid"
             })
         }
 
@@ -220,7 +224,7 @@ exports.login = async(req,res)=>{
         if(!userExist){
             return res.status(400).json({
                 success:false,
-                message:`User is not registered, Please SignUp to continue`
+                message:"User is not registered, Please SignUp to continue"
             })
         }
 
@@ -249,14 +253,14 @@ exports.login = async(req,res)=>{
             // cookie in response
             res.cookie("token", token, options).status(200).json({
                 success:true,
-                message:`User login successfully`,
+                message:"User logged in successfully",
                 data:userExist
             });
         }else{
             // password does not matched
             return res.status(401).json({
                 success:false,
-                message:`Password is incorrect`
+                message:"Bad Credentials"
             });
         }
 
@@ -264,7 +268,9 @@ exports.login = async(req,res)=>{
         console.log("Error occured during login the user: ", error);
         return res.status(500).json({
             success: false,
-            message:`Login failed, Please try again `
+            message:"Login failed, Please try again"
         });      
     }    
 }
+
+// login controller using OTP

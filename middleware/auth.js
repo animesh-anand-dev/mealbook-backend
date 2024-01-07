@@ -9,7 +9,9 @@ exports.auth = async(req,res,next)=>{
         console.log("Cookie---",req.cookies.token);
         console.log("Body---",req.body.token);
         console.log("Header---",req.header("Authorization"));
+
         const token = req.cookies.token || req.body.token || req.header("Authorization").replace("Bearer ","");
+
         // if token is not available
         console.log("Token ", token);
         if(!token){
@@ -118,7 +120,7 @@ exports.isChef =(req,res,next)=>{
 // "Customer"
 exports.isCustomer =(req,res,next)=>{
     try {
-        if(req.userExist.accountType !== "Chef"){
+        if(req.userExist.accountType !== "Customer"){
             return res.status(401).json({
                 success:false,
                 message:"This is a protected route for CUSTOMER"
