@@ -4,20 +4,29 @@ const app = express();
 
 const database = require("./config/database");
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
 const fileUplaod = require("express-fileupload");
 const {cloudinaryConnect} = require("./config/cloudinary");
 
 const {sendSignUpOTP} = require("./controllers/Auth");
 const {createCategory, fetchAllCategories, updateCategory, deleteCategory} = require("./controllers/Category");
 const {categoryRoutes} = require("./routes/Category");
+const userRoutes = require("./routes/User");
 
 // Loading environment variables from .env file
 dotenv.config();
+
+// middlewares
+app.use(cookieParser());
 app.use(express.json());
 // PORT NUMBER
 const PORT = process.env.PORT || 4000;
 // database connect
 database.connect();
+
+
+// routes
+app.use("/api/v1/auth",userRoutes);
 
 // define route
 // get function is used to routes the HTTP GET Requests to the path which is being specified with the specified callback functions.
