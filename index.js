@@ -3,11 +3,15 @@ const express = require("express");
 const app = express();
 
 const database = require("./config/database");
-const {sendSignUpOTP} = require("./controllers/Auth");
+const userRoutes = require("./routes/User");
 
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
 // Loading environment variables from .env file
 dotenv.config();
+
+// middlewares
+app.use(cookieParser());
 app.use(express.json());
 
 // PORT NUMBER
@@ -15,6 +19,10 @@ const PORT = process.env.PORT || 4000;
 
 // database connect
 database.connect();
+
+
+// routes
+app.use("/api/v1/auth",userRoutes);
 
 // define route
 // get function is used to routes the HTTP GET Requests to the path which is being specified with the specified callback functions.
@@ -26,7 +34,6 @@ app.get("/",(req,res)=>{
     });
 });
 
-app.post("/sendotp", sendSignUpOTP);
 
 // app.get('/api/whoami', (req,res) => {
 //     let myIP = req.header("X-Forwarded-For").split(',')[0]; 

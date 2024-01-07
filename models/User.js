@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     },
     profileImage:{
         type:String,
-        required:true
+        // required:true
     },
     orders:[{
         type:mongoose.Schema.Types.ObjectId,
