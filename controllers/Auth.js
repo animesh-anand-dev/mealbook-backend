@@ -28,7 +28,7 @@ exports.sendSignUpOTP = async (req, res) => {
         // Checking if Mobile Number Already Exists
         const checkUserPresent = await User.findOne({mobile});
 
-        if(!checkUserPresent) {
+        if(checkUserPresent) {
             return res.status(401).json({
                 success: false,
                 message: "User Already Registered"
@@ -125,10 +125,10 @@ exports.signUp = async (req,res)=>{
         
         // check if user already registered or not
         const checkUserPresent = await User.findOne({mobile});
-        if(!checkUserPresent){
+        if(checkUserPresent){
             return res.status(400).json({
                 success:false,
-                message:"User already registered, Please sign in to continue."
+                message:"User already registered"
             });
         }
 
